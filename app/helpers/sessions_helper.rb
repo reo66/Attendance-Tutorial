@@ -4,7 +4,7 @@ module SessionsHelper
   def log_in(user)
     session[:user_id] = user.id
   end
-  
+
   # セッションと@current_userを破棄します
   def log_out
     session.delete(:user_id)
