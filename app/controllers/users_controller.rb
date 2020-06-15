@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   end
 
   def show
-     @worked_sum = @attendances.where.not(started_at: nil).count
+    @worked_sum = @attendances.where.not(started_at: nil).count
   end
 
   def new
@@ -27,7 +27,6 @@ class UsersController < ApplicationController
       render :new
     end
   end
-
   def edit
   end
 
@@ -58,7 +57,7 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
-  private
+   private
 
     def user_params
       params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
@@ -67,31 +66,4 @@ class UsersController < ApplicationController
     def basic_info_params
       params.require(:user).permit(:department, :basic_time, :work_time)
     end
-
-    # beforeフィルター
-
-    # paramsハッシュからユーザーを取得します。
-    def set_user
-      @user = User.find(params[:id])
-    end
-
-    # ログイン済みのユーザーか確認します。
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "ログインしてください。"
-        redirect_to login_url
-      end
-    end
-
-    # アクセスしたユーザーが現在ログインしているユーザーか確認します。
-    def correct_user
-      redirect_to(root_url) unless current_user?(@user)
-    end
-
-    # システム管理権限所有かどうか判定します。
-    def admin_user
-      redirect_to root_url unless current_user.admin?
-    end
 end
-
